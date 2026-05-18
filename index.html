@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>eSports Dashboard – Comparador de Splits</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ───────────────── HEADER ───────────────── -->
+  <header class="top-bar">
+    <div class="logo">🎮 eSports Stats</div>
+    <div class="search-wrapper">
+      <input
+        type="text"
+        id="inputPlayer"
+        placeholder="🔍 Digite o nick do jogador…"
+        oninput="syncName()"
+        autocomplete="off"
+      />
+      <div id="suggestions-popup" class="suggestions-popup hidden">
+        <ul id="suggestions-list" class="suggestions-list"></ul>
+      </div>
+    </div>
+  </header>
+
+  <!-- ───────────────── MAIN LAYOUT ───────────────── -->
+  <main class="dashboard">
+
+    <!-- ══════ COLUNA ESQUERDA – ANTES ══════ -->
+    <section class="panel panel-left">
+
+      <div class="split-title-wrapper">
+        <span class="split-badge badge-left">ANTES</span>
+        <div
+          id="split-left-title"
+          class="split-title"
+          contenteditable="true"
+          spellcheck="false"
+          oninput="syncName()"
+          data-placeholder="Nome do Split…"
+        >2024 FFWS BR SPLIT 1</div>
+      </div>
+
+      <div class="player-card">
+        <div class="avatar-wrapper">
+          <img id="avatar-left" src="https://ui-avatars.com/api/?name=?&background=1a1a2e&color=fff&size=128" alt="avatar" />
+          <span id="split-left-tag" class="split-tag tag-left">SPLIT 1</span>
+        </div>
+        <div class="player-info">
+          <h2 id="name-left" class="player-name">—</h2>
+          <p  id="team-left" class="player-team">Equipe —</p>
+        </div>
+      </div>
+
+      <div class="stats-grid" id="stats-left">
+        <div class="stat-box"><span class="stat-label">Quedas</span><span class="stat-value" id="l-quedas">—</span></div>
+        <div class="stat-box"><span class="stat-label">Abates</span><span class="stat-value" id="l-abates">—</span></div>
+        <div class="stat-box"><span class="stat-label">Capas</span><span class="stat-value" id="l-capas">—</span></div>
+        <div class="stat-box"><span class="stat-label">Derrubados</span><span class="stat-value" id="l-derrubados">—</span></div>
+        <div class="stat-box"><span class="stat-label">Gelos</span><span class="stat-value" id="l-gelos">—</span></div>
+        <div class="stat-box"><span class="stat-label">Gelos Dest.</span><span class="stat-value" id="l-gelos-dest">—</span></div>
+        <div class="stat-box"><span class="stat-label">Reviveu</span><span class="stat-value" id="l-reviveu">—</span></div>
+        <div class="stat-box"><span class="stat-label">Aliados Rev.</span><span class="stat-value" id="l-aliados">—</span></div>
+        <div class="stat-box stat-box-wide"><span class="stat-label">Média Abates/Queda</span><span class="stat-value" id="l-contrib">—</span></div>
+      </div>
+
+    </section>
+
+    <!-- ══════ PAINEL CENTRAL – DIFF ══════ -->
+    <section class="panel panel-center">
+      <div class="diff-header">Δ Evolução</div>
+
+      <div class="diff-card">
+        <div class="diff-label">Abates</div>
+        <div class="diff-value" id="diff-abates">—</div>
+      </div>
+      <div class="diff-card">
+        <div class="diff-label">Derrubados</div>
+        <div class="diff-value" id="diff-derrubados">—</div>
+      </div>
+      <div class="diff-card">
+        <div class="diff-label">Capas</div>
+        <div class="diff-value" id="diff-capas">—</div>
+      </div>
+      <div class="diff-card">
+        <div class="diff-label">Gelos</div>
+        <div class="diff-value" id="diff-gelos">—</div>
+      </div>
+      <div class="diff-card">
+        <div class="diff-label">Média Ab./Queda</div>
+        <div class="diff-value" id="diff-contrib">—</div>
+      </div>
+
+      <div class="diff-status" id="diff-status">Busque um jogador</div>
+    </section>
+
+    <!-- ══════ COLUNA DIREITA – AGORA ══════ -->
+    <section class="panel panel-right">
+
+      <div class="split-title-wrapper">
+        <span class="split-badge badge-right">AGORA</span>
+        <div
+          id="split-right-title"
+          class="split-title"
+          contenteditable="true"
+          spellcheck="false"
+          oninput="syncName()"
+          data-placeholder="Nome do Split…"
+        >2024 FFWS BR SPLIT 2</div>
+      </div>
+
+      <div class="player-card">
+        <div class="avatar-wrapper">
+          <img id="avatar-right" src="https://ui-avatars.com/api/?name=?&background=1a1a2e&color=fff&size=128" alt="avatar" />
+          <span id="split-right-tag" class="split-tag tag-right">SPLIT 2</span>
+        </div>
+        <div class="player-info">
+          <h2 id="name-right" class="player-name">—</h2>
+          <p  id="team-right" class="player-team">Equipe —</p>
+        </div>
+      </div>
+
+      <div class="stats-grid" id="stats-right">
+        <div class="stat-box"><span class="stat-label">Quedas</span><span class="stat-value" id="r-quedas">—</span></div>
+        <div class="stat-box"><span class="stat-label">Abates</span><span class="stat-value" id="r-abates">—</span></div>
+        <div class="stat-box"><span class="stat-label">Capas</span><span class="stat-value" id="r-capas">—</span></div>
+        <div class="stat-box"><span class="stat-label">Derrubados</span><span class="stat-value" id="r-derrubados">—</span></div>
+        <div class="stat-box"><span class="stat-label">Gelos</span><span class="stat-value" id="r-gelos">—</span></div>
+        <div class="stat-box"><span class="stat-label">Gelos Dest.</span><span class="stat-value" id="r-gelos-dest">—</span></div>
+        <div class="stat-box"><span class="stat-label">Reviveu</span><span class="stat-value" id="r-reviveu">—</span></div>
+        <div class="stat-box"><span class="stat-label">Aliados Rev.</span><span class="stat-value" id="r-aliados">—</span></div>
+        <div class="stat-box stat-box-wide"><span class="stat-label">Média Abates/Queda</span><span class="stat-value" id="r-contrib">—</span></div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ───────────────── TABELA COMPARATIVA ───────────────── -->
+  <section class="compare-table-section">
+    <h3 class="compare-table-title">📊 Tabela Comparativa</h3>
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th>Métrica</th>
+          <th id="table-split-left">SPLIT 1</th>
+          <th>Variação</th>
+          <th id="table-split-right">SPLIT 2</th>
+        </tr>
+      </thead>
+      <tbody id="compare-tbody">
+        <tr><td colspan="4" class="table-placeholder">Digite um jogador acima para ver a comparação.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ───────────────── LOADING OVERLAY ───────────────── -->
+  <div id="loading-overlay" class="loading-overlay hidden">
+    <div class="spinner"></div>
+    <p>Buscando dados…</p>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
