@@ -3,19 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>eSports Dashboard – Comparador de Splits</title>
+  <title>eSports Dashboard – Ranking de Abates</title>
   <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
 </head>
 <body>
 
-  <!-- ───────────────── HEADER ───────────────── -->
   <header class="top-bar">
-    <div class="logo">🎮 eSports Stats</div>
+    <div class="logo" contenteditable="true" spellcheck="false">🏆 LEADERBOARD</div>
     <div class="search-wrapper">
       <input
         type="text"
         id="inputPlayer"
-        placeholder="🔍 Digite o nick do jogador…"
+        placeholder="🔍 Digite o nick para destacar ou buscar…"
         oninput="syncName()"
         autocomplete="off"
       />
@@ -25,143 +25,146 @@
     </div>
   </header>
 
-  <!-- ───────────────── MAIN LAYOUT ───────────────── -->
-  <main class="dashboard">
-
-    <!-- ══════ COLUNA ESQUERDA – ANTES ══════ -->
-    <section class="panel panel-left">
-
-      <div class="split-title-wrapper">
-        <span class="split-badge badge-left">ANTES</span>
-        <div
-          id="split-left-title"
-          class="split-title"
-          contenteditable="true"
-          spellcheck="false"
-          oninput="syncName()"
-          data-placeholder="Nome do Split…"
-        >2024 FFWS BR SPLIT 1</div>
-      </div>
-
-      <div class="player-card">
-        <div class="avatar-wrapper">
-          <img id="avatar-left" src="https://ui-avatars.com/api/?name=?&background=1a1a2e&color=fff&size=128" alt="avatar" />
-          <span id="split-left-tag" class="split-tag tag-left">SPLIT 1</span>
+  <main class="dashboard-ranking">
+    <div class="leaderboard-canvas">
+      
+      <div class="leaderboard-header">
+        <div class="league-logo-box">
+          <label style="cursor: pointer;" title="Clique para importar a Logo da Liga">
+            <img id="logo-bg-left" src="https://via.placeholder.com/80x80/222/fff?text=LOGO" alt="Logo da Liga" style="width: 80px; height: 80px; object-fit: contain;">
+            <input type="file" id="upload-logo-left" accept="image/*" style="display: none;" onchange="processarUploadImagem('left', 'logo')">
+          </label>
+          <span id="league-region-text" contenteditable="true" spellcheck="false">BR</span>
         </div>
-        <div class="player-info">
-          <h2 id="name-left" class="player-name">—</h2>
-          <p  id="team-left" class="player-team">Equipe —</p>
+        <div class="title-banner">
+          <div class="yellow-badge" id="split-left-title" contenteditable="true" spellcheck="false" oninput="triggerRankingUpdate()">2026 COPA FF</div>
+          <h1 class="main-title" contenteditable="true" spellcheck="false">ABATES</h1>
         </div>
       </div>
 
-      <div class="stats-grid" id="stats-left">
-        <div class="stat-box"><span class="stat-label">Quedas</span><span class="stat-value" id="l-quedas">—</span></div>
-        <div class="stat-box"><span class="stat-label">Abates</span><span class="stat-value" id="l-abates">—</span></div>
-        <div class="stat-box"><span class="stat-label">Capas</span><span class="stat-value" id="l-capas">—</span></div>
-        <div class="stat-box"><span class="stat-label">Derrubados</span><span class="stat-value" id="l-derrubados">—</span></div>
-        <div class="stat-box"><span class="stat-label">Gelos</span><span class="stat-value" id="l-gelos">—</span></div>
-        <div class="stat-box"><span class="stat-label">Gelos Dest.</span><span class="stat-value" id="l-gelos-dest">—</span></div>
-        <div class="stat-box"><span class="stat-label">Reviveu</span><span class="stat-value" id="l-reviveu">—</span></div>
-        <div class="stat-box"><span class="stat-label">Aliados Rev.</span><span class="stat-value" id="l-aliados">—</span></div>
-        <div class="stat-box stat-box-wide"><span class="stat-label">Média Abates/Queda</span><span class="stat-value" id="l-contrib">—</span></div>
-      </div>
+      <div class="leaderboard-content">
+        
+        <div class="mvp-box" id="card-left">
+          <div class="rank-badge-p1" contenteditable="true" spellcheck="false">1°</div>
+          
+          <div class="mvp-photo-wrapper">
+            <label style="cursor: pointer; width: 100%; height: 100%; display: block;" title="Clique para importar a foto do Player 1">
+              <img id="avatar-left" src="https://via.placeholder.com/300x350/333/fff?text=Upload+Foto" alt="Foto do Player 1" style="width:100%; height:100%; object-fit:cover;">
+              <input type="file" id="upload-avatar-left" accept="image/*" style="display: none;" onchange="processarUploadImagem('left', 'avatar')">
+            </label>
+          </div>
 
-    </section>
-
-    <!-- ══════ PAINEL CENTRAL – DIFF ══════ -->
-    <section class="panel panel-center">
-      <div class="diff-header">Δ Evolução</div>
-
-      <div class="diff-card">
-        <div class="diff-label">Abates</div>
-        <div class="diff-value" id="diff-abates">—</div>
-      </div>
-      <div class="diff-card">
-        <div class="diff-label">Derrubados</div>
-        <div class="diff-value" id="diff-derrubados">—</div>
-      </div>
-      <div class="diff-card">
-        <div class="diff-label">Capas</div>
-        <div class="diff-value" id="diff-capas">—</div>
-      </div>
-      <div class="diff-card">
-        <div class="diff-label">Gelos</div>
-        <div class="diff-value" id="diff-gelos">—</div>
-      </div>
-      <div class="diff-card">
-        <div class="diff-label">Média Ab./Queda</div>
-        <div class="diff-value" id="diff-contrib">—</div>
-      </div>
-
-      <div class="diff-status" id="diff-status">Busque um jogador</div>
-    </section>
-
-    <!-- ══════ COLUNA DIREITA – AGORA ══════ -->
-    <section class="panel panel-right">
-
-      <div class="split-title-wrapper">
-        <span class="split-badge badge-right">AGORA</span>
-        <div
-          id="split-right-title"
-          class="split-title"
-          contenteditable="true"
-          spellcheck="false"
-          oninput="syncName()"
-          data-placeholder="Nome do Split…"
-        >2024 FFWS BR SPLIT 2</div>
-      </div>
-
-      <div class="player-card">
-        <div class="avatar-wrapper">
-          <img id="avatar-right" src="https://ui-avatars.com/api/?name=?&background=1a1a2e&color=fff&size=128" alt="avatar" />
-          <span id="split-right-tag" class="split-tag tag-right">SPLIT 2</span>
+          <div class="mvp-footer-bar">
+            <div class="mvp-meta">
+              <span id="r-team-1" contenteditable="true" spellcheck="false">—</span>
+              <h2 id="r-player-name-1" contenteditable="true" spellcheck="false">CARREGANDO...</h2>
+            </div>
+            <div class="mvp-stats">
+              <div class="stat-col">
+                <span class="stat-label" contenteditable="true" spellcheck="false">ABATES</span>
+                <span class="stat-val" id="r-abates-1">—</span>
+              </div>
+              <div class="stat-col">
+                <span class="stat-label" contenteditable="true" spellcheck="false">QUEDAS</span>
+                <span class="stat-val" id="r-quedas-1">—</span>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="player-info">
-          <h2 id="name-right" class="player-name">—</h2>
-          <p  id="team-right" class="player-team">Equipe —</p>
+
+        <div class="rows-container">
+          <div class="table-header-labels">
+            <span contenteditable="true" spellcheck="false">ABATES</span>
+            <span contenteditable="true" spellcheck="false">QUEDAS</span>
+          </div>
+
+          <div class="leaderboard-rows">
+            
+            <div class="player-row">
+              <div class="row-rank" contenteditable="true" spellcheck="false">2º</div>
+              <div class="row-avatar">
+                <label style="cursor: pointer;" title="Upload foto Player 2">
+                  <img id="avatar-p2" src="https://via.placeholder.com/50" alt="P2" style="width: 100%; height: 100%; object-fit: cover;">
+                  <input type="file" id="upload-avatar-p2" accept="image/*" style="display: none;" onchange="processarUploadImagem('p2', 'avatar')">
+                </label>
+              </div>
+              <div class="row-name" id="r-player-name-2" contenteditable="true" spellcheck="false">—</div>
+              <div class="row-stats">
+                <div class="row-kills" id="r-abates-2">—</div>
+                <div class="row-deaths" id="r-quedas-2">—</div>
+              </div>
+            </div>
+
+            <div class="player-row">
+              <div class="row-rank" contenteditable="true" spellcheck="false">3º</div>
+              <div class="row-avatar">
+                <label style="cursor: pointer;" title="Upload foto Player 3">
+                  <img id="avatar-p3" src="https://via.placeholder.com/50" alt="P3" style="width: 100%; height: 100%; object-fit: cover;">
+                  <input type="file" id="upload-avatar-p3" accept="image/*" style="display: none;" onchange="processarUploadImagem('p3', 'avatar')">
+                </label>
+              </div>
+              <div class="row-name" id="r-player-name-3" contenteditable="true" spellcheck="false">—</div>
+              <div class="row-stats">
+                <div class="row-kills" id="r-abates-3">—</div>
+                <div class="row-deaths" id="r-quedas-3">—</div>
+              </div>
+            </div>
+
+            <div class="player-row">
+              <div class="row-rank" contenteditable="true" spellcheck="false">4º</div>
+              <div class="row-avatar">
+                <label style="cursor: pointer;" title="Upload foto Player 4">
+                  <img id="avatar-p4" src="https://via.placeholder.com/50" alt="P4" style="width: 100%; height: 100%; object-fit: cover;">
+                  <input type="file" id="upload-avatar-p4" accept="image/*" style="display: none;" onchange="processarUploadImagem('p4', 'avatar')">
+                </label>
+              </div>
+              <div class="row-name" id="r-player-name-4" contenteditable="true" spellcheck="false">—</div>
+              <div class="row-stats">
+                <div class="row-kills" id="r-abates-4">—</div>
+                <div class="row-deaths" id="r-quedas-4">—</div>
+              </div>
+            </div>
+
+            <div class="player-row">
+              <div class="row-rank" contenteditable="true" spellcheck="false">5º</div>
+              <div class="row-avatar">
+                <label style="cursor: pointer;" title="Upload foto Player 5">
+                  <img id="avatar-p5" src="https://via.placeholder.com/50" alt="P5" style="width: 100%; height: 100%; object-fit: cover;">
+                  <input type="file" id="upload-avatar-p5" accept="image/*" style="display: none;" onchange="processarUploadImagem('p5', 'avatar')">
+                </label>
+              </div>
+              <div class="row-name" id="r-player-name-5" contenteditable="true" spellcheck="false">—</div>
+              <div class="row-stats">
+                <div class="row-kills" id="r-abates-5">—</div>
+                <div class="row-deaths" id="r-quedas-5">—</div>
+              </div>
+            </div>
+
+          </div>
         </div>
+
       </div>
 
-      <div class="stats-grid" id="stats-right">
-        <div class="stat-box"><span class="stat-label">Quedas</span><span class="stat-value" id="r-quedas">—</span></div>
-        <div class="stat-box"><span class="stat-label">Abates</span><span class="stat-value" id="r-abates">—</span></div>
-        <div class="stat-box"><span class="stat-label">Capas</span><span class="stat-value" id="r-capas">—</span></div>
-        <div class="stat-box"><span class="stat-label">Derrubados</span><span class="stat-value" id="r-derrubados">—</span></div>
-        <div class="stat-box"><span class="stat-label">Gelos</span><span class="stat-value" id="r-gelos">—</span></div>
-        <div class="stat-box"><span class="stat-label">Gelos Dest.</span><span class="stat-value" id="r-gelos-dest">—</span></div>
-        <div class="stat-box"><span class="stat-label">Reviveu</span><span class="stat-value" id="r-reviveu">—</span></div>
-        <div class="stat-box"><span class="stat-label">Aliados Rev.</span><span class="stat-value" id="r-aliados">—</span></div>
-        <div class="stat-box stat-box-wide"><span class="stat-label">Média Abates/Queda</span><span class="stat-value" id="r-contrib">—</span></div>
-      </div>
-
-    </section>
-
+      <div class="bottom-accent-splash"></div>
+    </div>
   </main>
 
-  <!-- ───────────────── TABELA COMPARATIVA ───────────────── -->
-  <section class="compare-table-section">
-    <h3 class="compare-table-title">📊 Tabela Comparativa</h3>
-    <table class="compare-table">
-      <thead>
-        <tr>
-          <th>Métrica</th>
-          <th id="table-split-left">SPLIT 1</th>
-          <th>Variação</th>
-          <th id="table-split-right">SPLIT 2</th>
-        </tr>
-      </thead>
-      <tbody id="compare-tbody">
-        <tr><td colspan="4" class="table-placeholder">Digite um jogador acima para ver a comparação.</td></tr>
-      </tbody>
-    </table>
-  </section>
-
-  <!-- ───────────────── LOADING OVERLAY ───────────────── -->
-  <div id="loading-overlay" class="loading-overlay hidden">
-    <div class="spinner"></div>
-    <p>Buscando dados…</p>
+  <div style="display:none;">
+    <div id="split-right-title"></div>
+    <div id="split-left-tag"></div><div id="split-right-tag"></div>
+    <div id="table-split-left"></div><div id="table-split-right"></div>
+    <div id="compare-tbody"></div><div id="diff-status"></div>
+    <div id="logo-bg-right"></div><div id="avatar-right"></div>
+    <div id="r-abates"></div><div id="r-quedas"></div><div id="r-player-name"></div>
+    <div id="r-danos"></div><div id="r-derrubados"></div><div id="r-gelos"></div>
+    <div id="r-gelos-dest"></div><div id="r-reviveu"></div><div id="r-aliados"></div><div id="r-contrib"></div>
   </div>
 
-  <script src="script.js"></script>
+  <div id="loading-overlay" class="loading-overlay hidden">
+    <div class="spinner"></div>
+    <p>Atualizando Ranking do Sheets…</p>
+  </div>
+
+  <script src="script.js" type="module"></script>
 </body>
 </html>
